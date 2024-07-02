@@ -1,0 +1,60 @@
+import { EventTypes } from '@/types/types';
+import { CommitCommentEvent, DiscussionEvent, IssuesEvent, PullRequestEvent, PullRequestReviewEvent, PushEvent, StarEvent } from '@octokit/webhooks-types';
+
+export const handleEvent = (eventType: string, raw: EventTypes) => {
+    let eventTitle;
+    let rawData;
+    let ts;
+
+    switch (eventType) {
+        case 'commit_comment':
+        case 'discussion_comment':
+        case 'issue_comment':
+        case 'pull_request_review_comment':
+            rawData = raw as CommitCommentEvent;
+            eventTitle = rawData?.comment?.body;
+            ts = rawData?.comment?.updated_at;
+            break;
+
+        case 'discussion':
+            rawData = raw as DiscussionEvent;
+            eventTitle = rawData?.discussion?.title;
+            ts = rawData?.discussion?.updated_at;
+            break;
+
+        case 'issues':
+            rawData = raw as IssuesEvent;
+            eventTitle = rawData?.issue?.title;
+            ts = rawData?.issue?.updated_at;
+            break;
+
+        case 'pull_request':
+            rawData = raw as PullRequestEvent;
+            eventTitle = rawData?.pull_request?.title;
+            ts = rawData?.action === 'closed' ? rawData?.pull_request?.closed_at : rawData?.pull_request?.updated_at;
+            break;
+
+        case 'pull_request_review':
+            rawData = raw as PullRequestReviewEvent;
+            eventTitle = rawData?.review?.body;
+            ts = rawData?.review?.submitted_at;
+            break;
+
+        case 'push':
+            rawData = raw as PushEvent;
+            eventTitle = rawData.head_commit?.message;
+            ts = rawData.head_commit?.timestamp;
+            break;
+
+        case 'star':
+            rawData = raw as StarEvent;
+            eventTitle = `Star ${rawData?.action}`;
+            ts = rawData?.starred_at;
+            break;
+
+        default:
+            break;
+    }
+
+    return { eventTitle, ts };
+};
