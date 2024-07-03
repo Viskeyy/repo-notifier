@@ -10,3 +10,6 @@ export const ACCEPT_EVENT_TYPES = [
     'push',
     'star',
 ];
+
+export const LARK_NOTIFY_URL = 'https://open.feishu.cn/open-apis/message/v4/batch_send/';
+export const LARK_GET_ACCESS_TOKEN_URL = 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal';
