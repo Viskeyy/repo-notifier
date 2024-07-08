@@ -1,8 +1,8 @@
-import UserInfoMapping from '@/mapping.json';
+import userInfoMapping from '@/mapping.json';
 
 export const getLarkIdsFromGithubIds = (githubIds: string[]) => {
     const larkIds: string[] = [];
-    UserInfoMapping.filter((item) => githubIds.includes(item.githubId)).forEach((item) => larkIds.push(item.larkId));
+    userInfoMapping.filter((item) => githubIds.includes(item.githubId)).forEach((item) => larkIds.push(item.larkId));
     return larkIds;
 };
 
