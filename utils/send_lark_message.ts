@@ -35,7 +35,7 @@ const accessTokenCache = async () => {
 export const sendLarkMessage = async (larkIds: string[] | undefined, message: any) => {
     if (!larkIds || larkIds.length === 0) return;
 
-    const accessToken = accessTokenCache();
+    const accessToken = await accessTokenCache();
 
     accessToken &&
         (await fetch(LARK_NOTIFY_URL, {

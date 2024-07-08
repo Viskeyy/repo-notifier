@@ -1,5 +1,6 @@
 import { EventTypes } from '@/types/types';
 import { CommitCommentEvent, DiscussionEvent, IssuesEvent, PullRequestEvent, PullRequestReviewEvent, PushEvent, StarEvent } from '@octokit/webhooks-types';
+import { sendStarMessage } from './send_message';
 
 export const handleEvent = (eventType: string, raw: EventTypes) => {
     let eventTitle;
@@ -50,6 +51,7 @@ export const handleEvent = (eventType: string, raw: EventTypes) => {
             rawData = raw as StarEvent;
             eventTitle = `Star ${rawData?.action}`;
             ts = rawData?.starred_at;
+            sendStarMessage(rawData);
             break;
 
         default:
