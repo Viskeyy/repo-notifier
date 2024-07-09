@@ -1,5 +1,15 @@
 import { EventTypes } from '@/types/types';
-import { CommitCommentEvent, DiscussionEvent, IssuesEvent, PullRequestEvent, PullRequestReviewEvent, PushEvent, StarEvent } from '@octokit/webhooks-types';
+import {
+    DiscussionCommentEvent,
+    DiscussionEvent,
+    IssueCommentEvent,
+    IssuesEvent,
+    PullRequestEvent,
+    PullRequestReviewCommentEvent,
+    PullRequestReviewEvent,
+    PushEvent,
+    StarEvent,
+} from '@octokit/webhooks-types';
 import { sendStarMessage } from './send_message';
 
 export const handleEvent = (eventType: string, raw: EventTypes) => {
@@ -8,11 +18,10 @@ export const handleEvent = (eventType: string, raw: EventTypes) => {
     let ts;
 
     switch (eventType) {
-        case 'commit_comment':
         case 'discussion_comment':
         case 'issue_comment':
         case 'pull_request_review_comment':
-            rawData = raw as CommitCommentEvent;
+            rawData = raw as DiscussionCommentEvent | IssueCommentEvent | PullRequestReviewCommentEvent;
             eventTitle = rawData?.comment?.body;
             ts = rawData?.comment?.updated_at;
             break;

@@ -1,5 +1,4 @@
 export const ACCEPT_EVENT_TYPES = [
-    'commit_comment',
     'discussion',
     'discussion_comment',
     'issue_comment',
@@ -11,7 +10,7 @@ export const ACCEPT_EVENT_TYPES = [
     'star',
 ];
 
-export const ACCEPT_ACTION_TYPES = ['created', 'deleted'];
+export const ACCEPT_ACTION_TYPES = ['created', 'deleted', 'edited'];
 
 export const LARK_NOTIFY_URL = 'https://open.feishu.cn/open-apis/message/v4/batch_send/';
 export const LARK_GET_ACCESS_TOKEN_URL = 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal';

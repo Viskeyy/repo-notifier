@@ -6,7 +6,10 @@ export const getLarkIdsFromGithubIds = (githubIds: string[]) => {
     return larkIds;
 };
 
-export const getGithubIdsFromComment = (comment: string) => {};
+export const getGithubIdsFromComment = (comment: string) => {
+    const githubIds = userInfoMapping.filter((item) => comment.includes(item.githubId)).map((item) => item.githubId);
+    return githubIds;
+};
 
 export const getGithubUserInfo = async (githubId: string) => {
     const res = await fetch(`https://api.github.com/users/${githubId}`);
