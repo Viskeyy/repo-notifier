@@ -24,14 +24,20 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
 
     const raw: EventTypes = JSON.parse(await req.text());
+
+    if (raw.sender.login.endsWith('[bot]')) {
+        return new Response('ERROR: Bot event', { status: 400 });
+    }
+
     const eventAction = 'action' in raw ? raw.action : '';
+
+    if (!ACCEPT_EVENT_TYPES.includes(eventAction)) {
+        return new NextResponse('ERROR: Useless event action', { status: 400 });
+    }
+
     const eventSender = raw?.sender?.login;
     const orgName = raw?.organization?.login;
     const repoName = raw?.repository?.full_name;
-
-    if (eventSender.endsWith('[bot]')) {
-        return new Response('ERROR: Bot event', { status: 400 });
-    }
 
     const { eventTitle, ts } = handleEvent(eventType, raw);
 
