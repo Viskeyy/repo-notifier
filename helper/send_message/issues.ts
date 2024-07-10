@@ -25,7 +25,7 @@ export default async function sendIssueMessage(raw: IssuesEvent) {
 
     if (raw.action === 'assigned') {
         message.title = `@${raw.sender.login} assigned you to an issue in ${raw.repository.full_name} (issue #${raw.issue.number})`;
-        larkIds = larkIds.filter((id) => id !== raw?.assignee?.login);
+        larkIds = larkIds.filter((id) => id === raw?.assignee?.login);
     }
 
     await sendLarkMessage(larkIds, message);
