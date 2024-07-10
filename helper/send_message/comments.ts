@@ -1,9 +1,9 @@
-import { getGithubIdsFromComment } from '@/utils/get_user_info';
+import { getLarkIdsFromComment } from '@/utils/get_user_info';
 import { sendLarkMessage } from '@/utils/send_lark_message';
 import { DiscussionCommentEvent, IssueCommentEvent, PullRequestReviewCommentEvent } from '@octokit/webhooks-types';
 
 export default async function sendCommentMessage(raw: IssueCommentEvent | DiscussionCommentEvent | PullRequestReviewCommentEvent) {
-    const larkIds = getGithubIdsFromComment(raw.comment.body);
+    const larkIds = getLarkIdsFromComment(raw.comment.body);
 
     const message = {
         title: `${raw.sender.login} $${raw.action} a comment`,
