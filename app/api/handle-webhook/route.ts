@@ -1,4 +1,4 @@
-import { ACCEPT_EVENT_TYPES } from '@/constants/constant';
+import { ACCEPT_ACTION_TYPES, ACCEPT_EVENT_TYPES } from '@/constants/constant';
 import { handleEvent } from '@/helper/handle_event';
 import { EventTypes } from '@/types/types';
 import { NextRequest, NextResponse } from 'next/server';
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const eventAction = 'action' in raw ? raw.action : '';
 
-    if (!ACCEPT_EVENT_TYPES.includes(eventAction)) {
+    if (!ACCEPT_ACTION_TYPES.includes(eventAction)) {
         return new NextResponse('ERROR: Useless event action', { status: 400 });
     }
 

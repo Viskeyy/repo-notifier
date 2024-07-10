@@ -1,5 +1,9 @@
 import userInfoMapping from '@/mapping.json';
 
+export const getAllLarkIds = () => {
+    return userInfoMapping.map((item) => item.larkId);
+};
+
 export const getLarkIdsFromGithubIds = (githubIds: string[]) => {
     const larkIds: string[] = [];
     userInfoMapping.filter((item) => githubIds.includes(item.githubId)).forEach((item) => larkIds.push(item.larkId));
