@@ -4,7 +4,6 @@ import { DiscussionCommentEvent, IssueCommentEvent, PullRequestReviewCommentEven
 
 export default async function sendCommentMessage(raw: IssueCommentEvent | DiscussionCommentEvent | PullRequestReviewCommentEvent) {
     const larkIds = getLarkIdsFromComment(raw.comment.body);
-
     const message = {
         title: `${raw.sender.login} $${raw.action} a comment`,
         content: [
