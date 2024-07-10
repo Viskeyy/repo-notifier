@@ -10,7 +10,7 @@ import {
     PushEvent,
     StarEvent,
 } from '@octokit/webhooks-types';
-import { sendStarMessage } from './send_message';
+import { sendCommentMessage, sendDiscussionMessage, sendIssueMessage, sendStarMessage } from './send_message';
 
 export const handleEvent = (eventType: string, raw: EventTypes) => {
     let eventTitle;
@@ -24,18 +24,21 @@ export const handleEvent = (eventType: string, raw: EventTypes) => {
             rawData = raw as DiscussionCommentEvent | IssueCommentEvent | PullRequestReviewCommentEvent;
             eventTitle = rawData?.comment?.body;
             ts = rawData?.comment?.updated_at;
+            sendCommentMessage(rawData);
             break;
 
         case 'discussion':
             rawData = raw as DiscussionEvent;
             eventTitle = rawData?.discussion?.title;
             ts = rawData?.discussion?.updated_at;
+            sendDiscussionMessage(rawData);
             break;
 
         case 'issues':
             rawData = raw as IssuesEvent;
             eventTitle = rawData?.issue?.title;
             ts = rawData?.issue?.updated_at;
+            sendIssueMessage(rawData);
             break;
 
         case 'pull_request':

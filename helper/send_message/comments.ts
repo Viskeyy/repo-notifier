@@ -2,7 +2,7 @@ import { getGithubIdsFromComment } from '@/utils/get_user_info';
 import { sendLarkMessage } from '@/utils/send_lark_message';
 import { DiscussionCommentEvent, IssueCommentEvent, PullRequestReviewCommentEvent } from '@octokit/webhooks-types';
 
-export default async function commentEvent(raw: IssueCommentEvent | DiscussionCommentEvent | PullRequestReviewCommentEvent) {
+export default async function sendCommentMessage(raw: IssueCommentEvent | DiscussionCommentEvent | PullRequestReviewCommentEvent) {
     const larkIds = getGithubIdsFromComment(raw.comment.body);
 
     const message = {
@@ -25,11 +25,11 @@ export default async function commentEvent(raw: IssueCommentEvent | DiscussionCo
     };
 
     if ('issue' in raw) {
-        message.title = `@${raw.sender.login} ${raw.action} a comment in ${raw.issue.title} (issue #${raw.issue.number})`;
+        message.title = `@${raw.sender.login} ${raw.action} a comment in ${raw.issue.title} (${raw.repository.full_name} issue #${raw.issue.number})`;
     } else if ('discussion' in raw) {
-        message.title = `@${raw.sender.login} ${raw.action} a comment in ${raw.discussion.title} (discussion #${raw.discussion.number})`;
+        message.title = `@${raw.sender.login} ${raw.action} a comment in ${raw.discussion.title} (${raw.repository.full_name} discussion #${raw.discussion.number})`;
     } else if ('pull_request' in raw) {
-        message.title = `@${raw.sender.login} ${raw.action} a comment in ${raw.pull_request.title} (pull request #${raw.pull_request.number})`;
+        message.title = `@${raw.sender.login} ${raw.action} a comment in ${raw.pull_request.title} (${raw.repository.full_name} pull request #${raw.pull_request.number})`;
     }
 
     await sendLarkMessage(larkIds, message);
