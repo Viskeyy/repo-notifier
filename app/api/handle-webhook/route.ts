@@ -31,7 +31,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const eventAction = 'action' in raw ? raw.action : '';
 
-    if (!ACCEPT_ACTION_TYPES.includes(eventAction)) {
+    if (!ACCEPT_ACTION_TYPES.includes(eventAction) && eventAction !== '') {
         return new NextResponse('ERROR: Useless event action', { status: 400 });
     }
 
